@@ -22,7 +22,7 @@
 
   ### 2. create_face : 3D 얼굴 이미지 생성
   
-  
+  <img src="./readme_images/ch1.gif">
   
   - 얼굴 인식 라이브러리 Mediapipe 의 face_mesh 활용하여 얼굴의 468개의 랜드마크 생성
   - 3D 그래픽 블렌더 조작 라이브러리 bpy 활용하여 468개의 랜드마크 기반으로 안면 3D 객체 생성
