@@ -1,0 +1,540 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'convert:index'%}" >Face Converter</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#sample">sample</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#guide">guide</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#create">create</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Heading-->
+                <h1 class="masthead-heading text-uppercase mb-0">Face Converter</h1>
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Masthead Subheading-->
+                <p class="masthead-subheading font-weight-light mb-0">Convert 2D Image to 3D Image</p>
+            </div>
+        </header>
+        <!-- Portfolio Section-->
+        <section class="page-section" id="sample">
+            <div class="container">
+                <!-- Contact Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">3D Sample</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                    <canvas id="canvas" width="1000" height="1000"></canvas>
+                    <script type="importmap">
+                    {
+                      "imports": {
+                        "three": "https://unpkg.com/three@0.141.0/build/three.module.js",
+                        "GLTFLoader" : "https://unpkg.com/three@0.141.0/examples/jsm/loaders/GLTFLoader.js"
+                      }
+                    }
+                    </script>
+                    <script  type="module">
+
+                        import {GLTFLoader} from "{% static 'js/GLTFLoader.js' %}";
+                        import * as THREE from 'three';
+                        import { OrbitControls } from "{% static 'js/OrbitControls.js' %}";
+                        import {GLTFExporter} from "{% static 'js/GLTFExporter.js' %}";
+
+
+                        let scene = new THREE.Scene()
+                        let renderer = new THREE.WebGLRenderer({
+                            canvas : document.querySelector('#canvas'),
+                            antialias : true
+                        });
+                        renderer.outputEncoding = THREE.sRGBEncoding;
+
+                        let camera = new THREE.PerspectiveCamera(30,1);
+                        camera.position.set(0,0,3);
+
+                        scene.background = new THREE.Color('white');
+                        let light = new THREE.HemisphereLight( 0xffffff, 0x000000, 1 );
+                        scene.add(light);
+
+                        const controls = new OrbitControls(camera, renderer.domElement);
+                        controls.rotateSpeed = 1.0;
+                        controls.zoomSpeed = 1.2;
+                        controls.panSpeed = 0.8;
+                        controls.minDistance = 1;
+                        controls.maxDistance = 1000;
+
+                        let loader = new GLTFLoader();
+
+                        let face
+                        let right_model
+                        let right_name = "none"
+
+                        let left_model
+                        let left_name = "none"
+
+                        let side_R_model
+                        let side_L_model
+                        let back_model
+                        let base_name = "none"
+
+                        loader.load('{% static 'object/face.glb' %}', function(gltf){
+                            gltf.scene.scale.set(1,1,1)
+                            gltf.scene.position.set(0,0,0)
+                            face = gltf.scene
+                            scene.add(face);
+                            function animate(){
+                                requestAnimationFrame(animate)
+                                renderer.render(scene, camera);
+                                controls.update();
+                            }
+                            animate();
+                        });
+
+                        var hair_mat = new THREE.MeshStandardMaterial( {
+                            color: 0x000000,
+                         })
+
+                        window.changeObject_R = function changeObject_R()
+                        {
+                            console.log("Call")
+                            var file_name = document.getElementById("Right_Hair").options[document.getElementById("Right_Hair").selectedIndex].value;
+                            var file_dir = "{% static 'object/data/3D/front/' %}" + file_name
+
+
+                            if( file_name != "none" )
+                            {
+                                loader.load(file_dir, function(gltf){
+                                    gltf.scene.scale.set(1,1,1)
+                                    gltf.scene.position.set(0.000003,0.364604,0.338457)
+                                    if (right_name != "none")
+                                    {
+                                        scene.remove(right_model);
+                                    }
+                                    right_model = gltf.scene.clone();
+                                    right_name = file_name
+                                    scene.add(right_model);
+                                    function animate(){
+                                        requestAnimationFrame(animate)
+                                        renderer.render(scene, camera);
+                                        controls.update();
+                                    }
+                                    animate();
+                                });
+                            }
+                            else
+                            {
+                                scene.remove(right_model);
+                            }
+                        }
+                        window.changeObject_L = function changeObject_L()
+                        {
+                            var file_name = document.getElementById("Left_Hair").options[document.getElementById("Left_Hair").selectedIndex].value;
+                            var file_dir = "{% static 'object/data/3D/front/' %}" + file_name
+
+
+                            if( file_name != "none" )
+                            {
+                                loader.load(file_dir, function(gltf){
+                                    gltf.scene.scale.set(-1,1,1)
+                                    gltf.scene.position.set(0.000003,0.364604,0.338457)
+                                    if (left_name != "none")
+                                    {
+                                        scene.remove(left_model);
+                                    }
+                                    left_model = gltf.scene.clone();
+                                    left_name = file_name
+                                    scene.add(left_model);
+                                    function animate(){
+                                        requestAnimationFrame(animate)
+                                        renderer.render(scene, camera);
+                                        controls.update();
+                                    }
+                                    animate();
+                                });
+                            }
+                            else
+                            {
+                                scene.remove(left_model);
+                            }
+                        }
+
+                        window.changeObject_Base = function changeObject_Base()
+                        {
+
+                            var file_name = document.getElementById("Base_Hair").options[document.getElementById("Base_Hair").selectedIndex].value;
+                            var side_dir = "{% static 'object/data/3D/side/side' %}" + file_name +".glb"
+                            var back_dir = "{% static 'object/data/3D/back/back' %}"+ file_name +".glb"
+
+                            if( file_name != "none" )
+                            {
+                                loader.load(side_dir, function(gltf){
+                                    gltf.scene.scale.set(1,1,1)
+                                    gltf.scene.position.set(0.254884,0.292026,0.23188)
+                                    if (base_name != "none")
+                                    {
+                                        scene.remove(side_R_model);
+                                        scene.remove(side_L_model);
+                                        scene.remove(back_model);
+                                    }
+                                    side_R_model = gltf.scene.clone();
+                                    side_L_model = gltf.scene.clone();
+                                    side_L_model.scale.set(-1,1,1)
+                                    side_L_model.position.set(-0.254884,0.292026,0.23188)
+
+                                    base_name = file_name
+
+                                    scene.add(side_R_model);
+                                    scene.add(side_L_model);
+                                    function animate(){
+                                        requestAnimationFrame(animate)
+                                        renderer.render(scene, camera);
+                                        controls.update();
+                                    }
+                                    animate();
+                                });
+                                loader.load(back_dir, function(gltf){
+                                    gltf.scene.scale.set(1,1,1)
+                                    gltf.scene.position.set(0.000003,0.343578,-0.377666)
+                                    back_model = gltf.scene.clone();
+                                    scene.add(back_model);
+                                    function animate(){
+                                        requestAnimationFrame(animate)
+                                        renderer.render(scene, camera);
+                                        controls.update();
+                                    }
+                                    animate();
+                                });
+                            }
+                            else
+                            {
+                                scene.remove(side_R_model);
+                                scene.remove(side_L_model);
+                                scene.remove(back_model);
+                            }
+                        }
+
+
+                        function exportGLTF( input ) {
+
+                        const gltfExporter = new GLTFExporter();
+
+                        const params = {
+                            trs: true,
+                            onlyVisible: false,
+                            binary: true,
+                            maxTextureSize: 40960000000,
+                            forceIndices : true
+                        };
+
+                        const options = {
+                            trs: params.trs,
+                            onlyVisible: params.onlyVisible,
+                            binary: params.binary,
+                            maxTextureSize: params.maxTextureSize,
+                            forceIndices : params.forceIndices
+                        };
+
+                        gltfExporter.parse(
+                            input,
+                            function ( result ) {
+
+                                if ( result instanceof ArrayBuffer ) {
+
+                                    saveArrayBuffer( result, 'scene.glb' );
+
+                                } else {
+
+                                    const output = JSON.stringify( result, null, 2 );
+                                    console.log( output );
+                                    saveString( output, 'scene.gltf' );
+
+                                }
+
+                            },
+                            function ( error ) {
+
+                                console.log( 'An error happened during parsing', error );
+
+                            },
+                            options
+                        );
+
+                    }
+
+                    const link = document.createElement( 'a' );
+                    link.style.display = 'none';
+                    document.body.appendChild( link ); // Firefox workaround, see #6594
+
+                    function save( blob, filename ) {
+
+                        link.href = URL.createObjectURL( blob );
+                        link.download = filename;
+                        link.click();
+
+                        // URL.revokeObjectURL( url ); breaks Firefox...
+
+                    }
+
+                    function saveString( text, filename ) {
+
+                        save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+
+                    }
+
+
+                    function saveArrayBuffer( buffer, filename ) {
+
+                        save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
+
+                    }
+                    window.exportGLTF = function exportObjects() {
+                        exportGLTF(scene);
+                    }
+
+                    </script>
+                </div>
+                <div>
+                    <div class ="select_contain_1"  style="width:200px;">
+                        <label class="hair_select_label" for="Base_Hair">Base</label>
+                        <br>
+                        <select class ="hair_select" id="Base_Hair" onchange="changeObject_Base()">
+                            <option value="none">None</option>
+                              {% for base_nums in base_files %}
+                                    <option value="{{ base_nums }}">{{ base_nums }}</option>
+                              {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class ="select_contain_1" style="width:200px;">
+                        <label class="hair_select_label" for="Left_Hair">Left Hair</label>
+                        <br>
+                        <select class ="hair_select" id="Left_Hair" onchange="changeObject_L()">
+                            <option value="none">None</option>
+                              {% for front_file in front_files %}
+                                    <option value="{{ front_file }}">{{ front_file }}</option>
+                              {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class ="select_contain_1" style="width:200px;">
+                        <label class="hair_select_label" for="Right_Hair">Right Hair</label>
+                        <br>
+                        <select class ="hair_select" id="Right_Hair" onchange="changeObject_R()">
+                            <option value="none">None</option>
+                              {% for front_file in front_files %}
+                                    <option value="{{ front_file }}">{{ front_file }}</option>
+                              {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="download_div" style="text-align: center;">
+                <br>
+                <a class="btn btn-xl btn-outline-light2" onclick="exportGLTF()">
+                    <i class="fas fa-download me-2"></i>
+                    Download!
+                </a>
+            </div>
+        </section>
+        <!-- 가이드 섹션-->
+        <section class="page-section bg-primary text-white mb-0" id="guide">
+            <div class="container">
+                <!-- About Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-white">How TO USE</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <section class = "img_section">
+
+                    <div>
+                        <img class = "img_guide" src="{% static 'assets/guide1.png' %}">
+                        <br>
+                        <h3 style="text-align : center;">1. Choose a picture</h3>
+                    </div>
+
+                     <div>
+                         <img class = "img_guide" src="{% static 'assets/guide2.png' %}">
+                         <br>
+                        <h3 style="text-align : center;">2. Check the process</h3>
+                     </div>
+
+                     <div>
+                         <img class = "img_guide" src="{% static 'assets/guide3.png' %}">
+                         <br>
+                        <h3 style="text-align : center;">3. You get 3D Model</h3>
+                     </div>
+
+                </section>
+            </div>
+        </section>
+        <!-- 크리에이트 섹션-->
+        <section class="page-section" id="create">
+            <div class="container">
+                <!-- Contact Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Create Model</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Contact Section Form-->
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+
+
+                        <!-- to get an API token!-->
+                        {% csrf_token %}
+                        <form method="POST" enctype="multipart/form-data" onsubmit="display_Loding()">
+
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" name="name" type="text" required/>
+                                <label for="name">Name</label>
+                            </div>
+                            <!-- 이미지-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="files" name="image" type="file" required/>
+                                <img id ="image" />
+                                <label for="files">Image</label>
+                            </div>
+                            <!-- 로딩 -->
+                            <div class="loading" id="loading" style="display:none">
+                                <br>
+                                <h1>Processing Covert Image</h1>
+                                <br>
+                                <h2>Please wait a moment</h2>
+                                <br>
+                                <img src = "{% static 'assets/loding.gif' %}">
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+
+                            <div class="mb-3">
+                                <button class="btn btn-primary btn-xl" type="submit" style="float: right;">CREATE</button>
+                            </div>
+                        </form>
+                        <script>
+                            document.getElementById("files").onchange = function () {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                document.getElementById("image").src = e.target.result;
+                            };
+
+                            reader.readAsDataURL(this.files[0]);
+                            };
+
+                            function display_Loding()
+                            {
+                                document.getElementById("loading").style.display ='block';
+
+                                return true;
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="page-section" id="capture">
+            <div class="container">
+                <!-- Contact Section Heading-->
+                <div>
+                    <h3 class="page-section-heading text-center text-uppercase text-secondary mb-0">capture tool</h3>
+                </div>
+                <!-- Contact Section Form-->
+                <div class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-lg-4 ms-auto"><video id="video" width="320" height="240" autoplay = "false" style="float: left; margin: 2em 0em 2em 0em;"></video></div>
+                        <div class="col-lg-4 me-auto"><canvas id="vid_canvas" style="margin: 2em 0em 2em 0em;"></canvas></div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-xl" id="cap_download" style="float: right; margin-right: 1em;">Download</button>
+                        <button class="btn btn-danger btn-xl" id="webcamBtn" style="float: right; margin-right: 1em;">capture</button>
+                        <button class="btn btn-warning btn-xl" id="sttwebcamBtn" style="float: right; margin-right: 1em;">Use Camera</button>
+                    </div>
+                        <script>
+                             document.getElementById("sttwebcamBtn").addEventListener("click",function() {
+
+                                if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                                    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                                        var video = document.getElementById('video');
+                                        video.srcObject = stream;
+                                        video.play();
+                                        });
+                                    }
+
+                                    var canvas = document.getElementById("vid_canvas");
+                                    var context = canvas.getContext('2d');
+                                    var video = document.getElementById('video');
+                                    document.getElementById("webcamBtn").addEventListener("click",function() {
+                                        context.clearRect(0, 0, canvas.width, canvas.height);
+                                        canvas.width = 640
+                                        canvas.height = 480
+                                        context.drawImage(video,0,0,640,480);
+                                });
+
+                             });
+                             function getCurrentDate()
+                            {
+                                var date = new Date();
+                                var year = date.getFullYear().toString();
+
+                                var month = date.getMonth() + 1;
+                                month = month < 10 ? '0' + month.toString() : month.toString();
+
+                                var day = date.getDate();
+                                day = day < 10 ? '0' + day.toString() : day.toString();
+
+                                var hour = date.getHours();
+                                hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+
+                                var minites = date.getMinutes();
+                                minites = minites < 10 ? '0' + minites.toString() : minites.toString();
+
+                                var seconds = date.getSeconds();
+                                seconds = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+
+                                return year + month + day + hour + minites + seconds;
+                            }
+
+                             document.getElementById("cap_download").addEventListener("click",function() {
+                                var cnvs = document.getElementById('vid_canvas');
+                                var dataURL = cnvs.toDataURL('image/png');
+                                var aTag = document.createElement('a');
+                                aTag.download = 'screen_' + getCurrentDate() + '.png';
+                                aTag.href = dataURL;
+                                aTag.click();
+                             });
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}

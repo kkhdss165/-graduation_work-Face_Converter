@@ -1,0 +1,553 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'convert:index'%}">Face Converter</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Heading-->
+                <h1 class="page-section-heading text-center text-uppercase text-white">Congratulations Success convert! </h1>
+            </div>
+        </header>
+        <!-- Portfolio Section-->
+         <section class="page-section" id="create">
+             <div class="container">
+                <!-- Contact Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">converting process</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Contact Section Form-->
+            </div>
+             <section class = "img_section">
+
+                <div>
+                    <img class = "img_block" src="{{post.image.url}}">
+                    <br>
+                    <h3 style="text-align : center;">ORIGINAL</h3>
+                </div>
+
+                 <div>
+                     <img class = "img_block" src="/{{post.hair_area_url}}">
+                     <br>
+                    <h3 style="text-align : center;">Hair Segmentation</h3>
+                 </div>
+
+                 <div>
+                     <img class = "img_block" src="/{{post.hair_mask_url}}">
+                     <br>
+                    <h3 style="text-align : center;">Hair Mask</h3>
+                 </div>
+
+             </section>
+                <br>
+                <br>
+                <h3 class="page-section-heading text-center text-uppercase text-secondary mb-0">similar hair models</h3>
+                <br>
+                <br>
+             <!-- Icon Divider-->
+
+            <section class = "img_section">
+                  <div>
+                {% if post.ssim1_name|length >= 8 %}
+                    <img class ="flip" src='{% static "" %}{{post.ssim1_url}}' transform ="">
+                      <br>
+                      <h3 style="text-align : center;">1st : {{ post.ssim1_name }}</h3>
+                {% else %}
+                    <img class = "img_block" src='{% static "" %}{{post.ssim1_url}}'>
+                      <br>
+                      <h3 style="text-align : center;">1st : {{ post.ssim1_name }}</h3>
+                {% endif %}
+                  </div>
+
+                   <div>
+                {% if post.ssim2_name|length >= 8 %}
+                    <img class ="flip" src='{% static "" %}{{post.ssim2_url}}' transform ="">
+                       <br>
+                       <h3 style="text-align : center;">2nd : {{ post.ssim2_name }}</h3>
+                {% else %}
+                    <img  class = "img_block" src='{% static "" %}{{post.ssim2_url}}'>
+                       <br>
+                       <h3 style="text-align : center;">2nd : {{ post.ssim2_name }}</h3>
+                {% endif %}
+                   </div>
+
+                 <div>
+                {% if post.ssim3_name|length >= 8 %}
+                    <img class ="flip" src='{% static "" %}{{post.ssim3_url}}' transform ="">
+                     <br>
+                     <h3 style="text-align : center;">3rd : {{ post.ssim3_name }}</h3>
+                {% else %}
+                    <img class = "img_block" src='{% static "" %}{{post.ssim3_url}}'>
+                     <br>
+                     <h3 style="text-align : center;">3rd : {{ post.ssim3_name }}</h3>
+                {% endif %}
+               </div>
+            </section>
+
+        </section>
+
+        <section class="page-section" id="sample">
+            <div class="container">
+                <!-- Contact Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">{{ post.name }}'s model</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                                        <canvas id="canvas" width="1000" height="1000"></canvas>
+                    <script type="importmap">
+                    {
+                      "imports": {
+                        "three": "https://unpkg.com/three@0.141.0/build/three.module.js",
+                        "GLTFLoader" : "https://unpkg.com/three@0.141.0/examples/jsm/loaders/GLTFLoader.js"
+                      }
+                    }
+                    </script>
+                    <script  type="module">
+
+                        import {GLTFLoader} from "{% static 'js/GLTFLoader.js' %}";
+                        import * as THREE from 'three';
+                        import { OrbitControls } from "{% static 'js/OrbitControls.js' %}";
+                        import {GLTFExporter} from "{% static 'js/GLTFExporter.js' %}";
+
+                        let scene = new THREE.Scene()
+                        let renderer = new THREE.WebGLRenderer({
+                            canvas : document.querySelector('#canvas'),
+                            antialias : true
+                        });
+                        renderer.outputEncoding = THREE.sRGBEncoding;
+
+                        let camera = new THREE.PerspectiveCamera(30,1);
+                        camera.position.set(0,0,3);
+
+                        scene.background = new THREE.Color('white');
+                        let light = new THREE.HemisphereLight( 0xffffff, 0x000000, 1 );
+                        scene.add(light);
+
+                        const controls = new OrbitControls(camera, renderer.domElement);
+                        controls.rotateSpeed = 1.0;
+                        controls.zoomSpeed = 1.2;
+                        controls.panSpeed = 0.8;
+                        controls.minDistance = 1;
+                        controls.maxDistance = 1000;
+
+                        let loader = new GLTFLoader();
+
+                        let face
+                        let right_model
+                        let right_name = "none"
+
+                        let left_model
+                        let left_name = "none"
+
+                        let side_R_model
+                        let side_L_model
+                        let back_model
+                        let base_name = "none"
+
+                        loader.load('/{{ post.face_3D_url }}', function(gltf){
+                            gltf.scene.scale.set(1,1,1)
+                            gltf.scene.position.set(0,0,0)
+                            face = gltf.scene
+                            scene.add(face);
+                            function animate(){
+                                requestAnimationFrame(animate)
+                                renderer.render(scene, camera);
+                                controls.update();
+                            }
+                            animate();
+                        });
+
+                        var hair_mat = new THREE.MeshStandardMaterial( {
+                            color: 0x000000,
+                         })
+
+
+                        function change_R(file_name)
+                        {
+                            var file_dir = "{% static 'object/data/3D/front/' %}" + file_name
+                            if( file_name != right_name)
+                            {
+                                if( file_name != "none")
+                                {
+                                    loader.load(file_dir, function(gltf){
+                                        gltf.scene.scale.set({{ post.ratio_x }},{{ post.ratio_y }},{{ post.ratio_z }})
+                                        gltf.scene.position.set({{ post.front_x }},{{ post.front_z }},-1*{{ post.front_y }})
+                                        if (right_name != "none")
+                                        {
+                                            scene.remove(right_model);
+                                        }
+                                        right_model = gltf.scene.clone();
+                                        right_name = file_name
+                                        scene.add(right_model);
+                                        function animate(){
+                                            requestAnimationFrame(animate)
+                                            renderer.render(scene, camera);
+                                            controls.update();
+                                        }
+                                        animate();
+                                    });
+                                }
+                                else
+                                {
+                                    scene.remove(right_model);
+                                }
+                            }
+                        }
+
+                        function change_L(file_name)
+                        {
+                            var file_dir = "{% static 'object/data/3D/front/' %}" + file_name
+
+                            if (file_name != left_name)
+                            {
+                                if( file_name != "none")
+                                {
+                                    loader.load(file_dir, function(gltf){
+                                        gltf.scene.scale.set(-{{ post.ratio_x }},{{ post.ratio_y }},{{ post.ratio_z }})
+                                        gltf.scene.position.set({{ post.front_x }},{{ post.front_z }},-1*{{ post.front_y }})
+                                        if (left_name != "none")
+                                        {
+                                            scene.remove(left_model);
+                                        }
+                                        left_model = gltf.scene.clone();
+                                        left_name = file_name
+                                        scene.add(left_model);
+                                        function animate(){
+                                            requestAnimationFrame(animate)
+                                            renderer.render(scene, camera);
+                                            controls.update();
+                                        }
+                                        animate();
+                                    });
+                                }
+                                else
+                                {
+                                    scene.remove(left_model);
+                                }
+                            }
+                        }
+
+                        function change_Base(file_name)
+                        {
+                            var side_dir = "{% static 'object/data/3D/side/side' %}" + file_name +".glb"
+                            var back_dir = "{% static 'object/data/3D/back/back' %}"+ file_name +".glb"
+
+                            if (file_name != base_name)
+                            {
+                                if( file_name != "none")
+                                {
+                                    loader.load(side_dir, function(gltf){
+                                        gltf.scene.scale.set({{ post.ratio_x }},{{ post.ratio_y }},{{ post.ratio_z }})
+                                        gltf.scene.position.set({{ post.side_x }},{{ post.side_z }},-1*{{ post.side_y }})
+                                        if (base_name != "none")
+                                        {
+                                            scene.remove(side_R_model);
+                                            scene.remove(side_L_model);
+                                            scene.remove(back_model);
+                                        }
+                                        side_R_model = gltf.scene.clone();
+                                        side_L_model = gltf.scene.clone();
+                                        side_L_model.scale.set(-{{ post.ratio_x }},{{ post.ratio_y }},{{ post.ratio_z }})
+                                        side_L_model.position.set(-1*{{ post.side_x }},{{ post.side_z }},-1*{{ post.side_y }})
+
+                                        base_name = file_name
+
+                                        scene.add(side_R_model);
+                                        scene.add(side_L_model);
+                                        function animate(){
+                                            requestAnimationFrame(animate)
+                                            renderer.render(scene, camera);
+                                            controls.update();
+                                        }
+                                        animate();
+                                    });
+                                    loader.load(back_dir, function(gltf){
+                                        gltf.scene.scale.set({{ post.ratio_x }},{{ post.ratio_y }}*1.02,{{ post.ratio_z }}*1.02)
+                                        gltf.scene.position.set({{ post.back_x }},{{ post.back_z }},-1*{{ post.back_y }}*1.03)
+                                        back_model = gltf.scene.clone();
+                                        scene.add(back_model);
+                                        function animate(){
+                                            requestAnimationFrame(animate)
+                                            renderer.render(scene, camera);
+                                            controls.update();
+                                        }
+                                        animate();
+                                    });
+                                }
+                                else
+                                {
+                                    scene.remove(side_R_model);
+                                    scene.remove(side_L_model);
+                                    scene.remove(back_model);
+                                }
+                            }
+                        }
+
+                        window.changeObject_R = function changeObject_R()
+                        {
+                            var file_name = document.getElementById("Right_Hair").options[document.getElementById("Right_Hair").selectedIndex].value;
+                            change_R(file_name);
+                        }
+
+
+                        window.changeObject_L = function changeObject_L()
+                        {
+                            var file_name = document.getElementById("Left_Hair").options[document.getElementById("Left_Hair").selectedIndex].value;
+                            change_L(file_name);
+                        }
+
+                        window.changeObject_Base = function changeObject_Base()
+                        {
+                            var file_name = document.getElementById("Base_Hair").options[document.getElementById("Base_Hair").selectedIndex].value;
+                            change_Base(file_name);
+                        }
+
+                        function exportGLTF( input ) {
+
+                            const gltfExporter = new GLTFExporter();
+
+                            const params = {
+                                trs: true,
+                                onlyVisible: false,
+                                binary: true,
+                                maxTextureSize: 40960000000,
+                                forceIndices : true
+                            };
+
+                            const options = {
+                                trs: params.trs,
+                                onlyVisible: params.onlyVisible,
+                                binary: params.binary,
+                                maxTextureSize: params.maxTextureSize,
+                                forceIndices : params.forceIndices
+                            };
+
+                            gltfExporter.parse(
+                                input,
+                                function ( result ) {
+
+                                    if ( result instanceof ArrayBuffer ) {
+
+                                        saveArrayBuffer( result, 'scene.glb' );
+
+                                    } else {
+
+                                        const output = JSON.stringify( result, null, 2 );
+                                        console.log( output );
+                                        saveString( output, 'scene.gltf' );
+
+                                    }
+
+                                },
+                                function ( error ) {
+
+                                    console.log( 'An error happened during parsing', error );
+
+                                },
+                                options
+                            );
+
+                        }
+
+                        const link = document.createElement( 'a' );
+                        link.style.display = 'none';
+                        document.body.appendChild( link ); // Firefox workaround, see #6594
+
+                        function save( blob, filename ) {
+
+                            link.href = URL.createObjectURL( blob );
+                            link.download = filename;
+                            link.click();
+
+                            // URL.revokeObjectURL( url ); breaks Firefox...
+
+                        }
+
+                        function saveString( text, filename ) {
+
+                            save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+
+                        }
+
+
+                        function saveArrayBuffer( buffer, filename ) {
+
+                            save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
+
+                        }
+                        window.exportGLTF = function exportObjects() {
+                            exportGLTF(scene);
+                        }
+
+                        window.set_Hair_Set = function set_Hair_Set()
+                        {
+                            var model_name = document.getElementById("Hair_Set").options[document.getElementById("Hair_Set").selectedIndex].value;
+                            if (model_name != 'none')
+                            {
+                                changeHairbyModel(model_name);
+                            }
+                            else
+                            {
+                                change_R('none')
+                                change_L('none')
+                                change_Base('none')
+                            }
+                        }
+                        window.set_Similar_Set = function set_Similar_Set()
+                        {
+                            var model_name = document.getElementById("Similar_Hair").options[document.getElementById("Similar_Hair").selectedIndex].value;
+                            if (model_name != 'none')
+                            {
+                                changeHairbyModel(model_name);
+                            }
+                            else
+                            {
+                                change_R('none')
+                                change_L('none')
+                                change_Base('none')
+                            }
+                        }
+
+                        var hair_info = JSON.parse(JSON.stringify({{ hair_info | safe}}));
+                        var list = hair_info['list']
+
+                        function changeHairbyModel(model_name)
+                        {
+
+                            var select = list.filter(function(e){
+                                return e.name == model_name
+                            });
+
+                            var extension = '.glb'
+                            var select_right
+                            var select_left
+                            if (select[0]['front-R'] == 'none')
+                            {
+                                select_right = select[0]['front-R']
+                            }
+                            else
+                            {
+                                select_right = select[0]['front-R'] + extension
+                            }
+
+                            if (select[0]['front-L'] == 'none')
+                            {
+                                select_left = select[0]['front-L']
+                            }
+                            else
+                            {
+                                select_left = select[0]['front-L'] + extension
+                            }
+                            var select_base = select[0]['base-set']
+
+                            change_R(select_right)
+                            change_L(select_left)
+                            change_Base(select_base)
+
+                        }
+                        window.onload = function(){
+                          set_Similar_Set()
+                        }
+                    </script>
+                </div>
+                <div>
+                    <div class ="select_contain_1"  style="width:200px;">
+                        <label class="hair_select_label" for="Base_Hair">Base</label>
+                        <br>
+                        <select class ="hair_select" id="Base_Hair" onchange="changeObject_Base()">
+                            <option value="none">None</option>
+                              {% for base_nums in base_files %}
+                                    <option value="{{ base_nums }}">{{ base_nums }}</option>
+                              {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class ="select_contain_1" style="width:200px;">
+                        <label class="hair_select_label" for="Left_Hair">Left Hair</label>
+                        <br>
+                        <select class ="hair_select" id="Left_Hair" onchange="changeObject_L()">
+                            <option value="none">None</option>
+                              {% for front_file in front_files %}
+                                    <option value="{{ front_file }}">{{ front_file }}</option>
+                              {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class ="select_contain_1" style="width:200px;">
+                        <label class="hair_select_label" for="Right_Hair">Right Hair</label>
+                        <br>
+                        <select class ="hair_select" id="Right_Hair" onchange="changeObject_R()">
+                            <option value="none">None</option>
+                                <option value="none">None</option>
+                                {% for front_file in front_files %}
+                                    <option value="{{ front_file }}">{{ front_file }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <div class ="select_contain_2" style="width:200px;">
+                        <label class="model_select_label" for="Hair_Set">Hair Set</label>
+                        <br>
+                        <select class ="model_select" id="Hair_Set" onchange="set_Hair_Set()">
+                            <option value="none">None</option>
+                            {% for list_key, list_value in hair_info.items %}
+                                {% for model_info in list_value %}
+                                    {% for name_key, name_value in model_info.items %}
+                                        {% if forloop.first %}
+                                            <option value="{{ name_value }}">{{ name_value }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class ="select_contain_2" style="width:200px;">
+                        <label class="model_select_label" for="Similar_Hair">Similar Hair</label>
+                        <br>
+                        <select class ="model_select" id="Similar_Hair" onchange="set_Similar_Set()">
+                            <option value="none">None</option>
+                            <option value="{{ post.ssim1_name }}">{{ post.ssim1_name }}</option>
+                            <option value="{{ post.ssim2_name }}">{{ post.ssim2_name }}</option>
+                            <option value="{{ post.ssim3_name }}">{{ post.ssim3_name }}</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="download_div" style="text-align: center;">
+                <br>
+                <a class="btn btn-xl btn-outline-light2" onclick="exportGLTF()">
+                    <i class="fas fa-download me-2"></i>
+                    Download!
+                </a>
+            </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    <button class="btn btn-danger btn-delete" style="float: right;">Delete Data</button>
+
+                </form>
+            </div>
+
+        </section>
+
+{% endblock %}

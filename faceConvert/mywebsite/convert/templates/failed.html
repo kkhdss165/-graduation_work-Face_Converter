@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'convert:index'%}">Face Converter</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="failed_convert_header">
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Heading-->
+                <h1 class="page-section-heading text-center text-uppercase text-white">Sorry, Failed convert... </h1>
+                <br>
+                <p class="masthead-subheading font-weight-light mb-0" style="font-size : 130%;">No one or more than two people in the {{ post.name }}'s 2D Image</p>
+                <p class="masthead-subheading font-weight-light mb-0" style="font-size : 130%;">Please another image...</p>
+            </div>
+        </header>
+        <!-- Portfolio Section-->
+         <section class="page-section" id="create">
+             <div>
+                 <!-- Contact Section Heading-->
+                 <h4 class="page-section-heading text-center text-uppercase text-secondary mb-0">Modify information</h4>
+                 <!-- Icon Divider--><!-- Contact Section Form-->
+                 <br>
+                 <br>
+            </div>
+             <div class="container">
+
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-8 col-xl-7">
+                        <!-- to get an API token!-->
+                        {% csrf_token %}
+                        <form method="POST" enctype="multipart/form-data" onsubmit="display_Loding()">
+
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" name="name" type="text" value="{{ post.name }}" required/>
+                                <label for="name">Name</label>
+                            </div>
+                            <!-- 이미지-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="files" name="image" type="file" required/>
+                                <img id ="image" src="{{post.image.url}}"/>
+                                <label for="files">Image</label>
+                            </div>
+                            <!-- 로딩 -->
+                            <div class="loading" id="loading" style="display:none;">
+                                <br>
+                                <h1>Processing Covert Image</h1>
+                                <br>
+                                <h2>Please wait a moment</h2>
+                                <br>
+                                <img src = "{% static 'assets/loding.gif' %}">
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+
+                            <div class="mb-3">
+                                <button class="btn btn-primary btn-xl" type="submit" style="float: right;">MODIFY</button>
+                            </div>
+                        </form>
+                        <script>
+                            document.getElementById("files").onchange = function () {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                document.getElementById("image").src = e.target.result;
+                            };
+
+                            reader.readAsDataURL(this.files[0]);
+                            };
+
+                            function display_Loding()
+                            {
+                                document.getElementById("loading").style.display ='block';
+
+                                return true;
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="page-section" id="capture">
+            <div class="container">
+                <!-- Contact Section Heading-->
+                <div>
+                    <h3 class="page-section-heading text-center text-uppercase text-secondary mb-0">capture tool</h3>
+                </div>
+                <!-- Contact Section Form-->
+                <div class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-lg-4 ms-auto"><video id="video" width="320" height="240" autoplay = "false" style="float: left; margin: 2em 0em 2em 0em;"></video></div>
+                        <div class="col-lg-4 me-auto"><canvas id="vid_canvas" style="margin: 2em 0em 2em 0em;"></canvas></div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-xl" id="cap_download" style="float: right; margin-right: 1em;">Download</button>
+                        <button class="btn btn-danger btn-xl" id="webcamBtn" style="float: right; margin-right: 1em;">capture</button>
+                        <button class="btn btn-warning btn-xl" id="sttwebcamBtn" style="float: right; margin-right: 1em;">Use Camera</button>
+                    </div>
+                        <script>
+                             document.getElementById("sttwebcamBtn").addEventListener("click",function() {
+
+                                if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                                    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                                        var video = document.getElementById('video');
+                                        video.srcObject = stream;
+                                        video.play();
+                                        });
+                                    }
+
+                                    var canvas = document.getElementById("vid_canvas");
+                                    var context = canvas.getContext('2d');
+                                    var video = document.getElementById('video');
+                                    document.getElementById("webcamBtn").addEventListener("click",function() {
+                                        context.clearRect(0, 0, canvas.width, canvas.height);
+                                        canvas.width = 640
+                                        canvas.height = 480
+                                        context.drawImage(video,0,0,640,480);
+                                });
+
+                             });
+                             function getCurrentDate()
+                            {
+                                var date = new Date();
+                                var year = date.getFullYear().toString();
+
+                                var month = date.getMonth() + 1;
+                                month = month < 10 ? '0' + month.toString() : month.toString();
+
+                                var day = date.getDate();
+                                day = day < 10 ? '0' + day.toString() : day.toString();
+
+                                var hour = date.getHours();
+                                hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+
+                                var minites = date.getMinutes();
+                                minites = minites < 10 ? '0' + minites.toString() : minites.toString();
+
+                                var seconds = date.getSeconds();
+                                seconds = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+
+                                return year + month + day + hour + minites + seconds;
+                            }
+
+                             document.getElementById("cap_download").addEventListener("click",function() {
+                                var cnvs = document.getElementById('vid_canvas');
+                                var dataURL = cnvs.toDataURL('image/png');
+                                var aTag = document.createElement('a');
+                                aTag.download = 'screen_' + getCurrentDate() + '.png';
+                                aTag.href = dataURL;
+                                aTag.click();
+                             });
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+{% endblock %}
