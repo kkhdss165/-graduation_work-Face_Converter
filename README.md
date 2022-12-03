@@ -4,7 +4,7 @@
 # <소개>
   - 2차원 인물 이미지를 3차원 이미지로 변환해주는 프로젝트
   - Django를 활용한 웹-클라이언트 시스템
-  - 얼굴에 대한 3D 모델은 직접생성, 헤어에 대한 3D 모델은 라이브러리 매칭
+  - 얼굴에 대한 3D 모델은 직접생성, 헤어에 대한 3D 모델은 라이브러리 매칭(44개 종류의 헤어모델)
 
  ## 시스템 흐름
   <img src="./readme_images/flow_diagram.png">
@@ -50,7 +50,10 @@
   ### 4. hair_similarity : 유사한 헤어 매칭
   
   - opencv의 이미지 처리, bitwise 연산, MSE(평균제곱오차) 활용하여 헤어영역의 유사도 측정
-   #### 매칭 과정
+ 
+ 
+ 
+   ### 매칭 과정
    base image : 사용자 헤어 영역, compare image : 3D 헤어모델 정면 이미지 모음 중 일부 
    
    1) compare image와 base image를 비율을 유지하면서 너비의 같은 길이로 조정.
@@ -61,8 +64,16 @@
    3) base image는 정해진 픽셀 수만큼 우측으로 이동하면서 compare image와 base image에 대하여 bitwise_xor 연산을 수행한다.
     
    - 우측 끝에 도달할 때 까지 반복, 좌표 값에 따른 bitwise_xor을 기록
+   - bitwise_xor 값이 가장 낮을때를 찾기(가장 많이 겹치는 지점)
    
    4) 모든 compare image 이미지에 1) ~ 3) 반복
+
+   <img src="./readme_images/ch3-2.png">
+   
+   5) 모든 compare image 에 대해서 가장 많이 겹치는 시점에서 bitwise_or 와 bitwise_and 연산 수행
+   6) bitwise_or 와 bitwise_and 값의 차이가 가장 적은 compare image
+   
+   - base image 와 compare image 가 유사할 수록 bitwise_or 와 bitwise_and 차이가 작음
    
 
   ### 5. 합치기 및 출력
