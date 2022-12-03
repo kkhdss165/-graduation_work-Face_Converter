@@ -1,2 +1,2 @@
-# -graduation_work-Face_Converter
+# Face_Converter
 졸업작품
