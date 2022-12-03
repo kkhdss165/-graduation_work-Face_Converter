@@ -33,18 +33,30 @@
   <img src="./readme_images/ch2.png">
   
   
-  - hair_Segmentation : hair tenseorflow, Keras 기반 DeepLabV3+ 활용하여 헤어 영역 검출 (인공지능 학습 후 사용)
-  - remove_Back : Pythorch 기반 DeepLabV3 활용하여 배경제거 (배경에 대한 노이즈 제거하기 위함)
+  - hair_Segmentation : hair tenseorflow, Keras 기반 DeepLabV3+ 활용하여 헤어 영역 검출
+    - 인공지능 학습 후 사용
+  - remove_Back : Pythorch 기반 DeepLabV3 활용하여 배경제거
+    - 배경에 대한 노이즈 제거하기 위함
   - post_Processing : opencv의 threshold, Contour 활용하여 노이즈 제거
+    - 이미지 이진화 진행 후, 컨투어로 모든 영역을 탐색
+    - 가장 큰 영역을 기준으로 면적 이상 영역을 헤어로 간주하고 다른 영역 제거 
 
   ### 4. hair_similarity : 유사한 헤어 매칭
   
   - opencv의 이미지 처리, bitwise 연산, MSE(평균제곱오차) 활용하여 헤어영역의 유사도 측정
    #### 매칭 과정
-    
+   base image : 사용자 헤어 영역, compare image : 3D 헤어모델 정면 이미지 모음 중 일부 
+   
+   1) compare image와 base image를 비율을 유지하면서 너비의 같은 길이로 조정.
+   2) 이후 compare image를 큰 검정 컨버스 중심으로 두고 base image는 또 다른 같은 크기의 검정 컨버스의 좌측 상단에 배치.
+   
    <img src="./readme_images/ch3-1.gif">
-    
-   1) 
+   
+   3) base image는 정해진 픽셀 수만큼 우측으로 이동하면서 compare image와 base image에 대하여 bitwise_xor 연산을 수행한다.
+   (우측 끝에 도달할 때 까지 반복, 좌표 값에 따른 bitwise_xor을 기록)
+   
+   4) 모든 compare image 이미지에 
+   
 
   ### 5. 합치기 및 출력
 
