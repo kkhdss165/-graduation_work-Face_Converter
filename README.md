@@ -73,7 +73,7 @@
    <img src="./readme_images/ch3-2.png">
    
    5) 모든 compare image 에 대해서 가장 많이 겹치는 시점에서 bitwise_or 와 bitwise_and 연산 수행
-   6) bitwise_or 와 bitwise_and 값의 차이가 가장 적은 compare image
+   6) bitwise_or 와 bitwise_and 값의 차이가 가장 적은 compare image 찾기
    
    - base image 와 compare image 가 유사할 수록 bitwise_or 와 bitwise_and 차이가 작음
    
