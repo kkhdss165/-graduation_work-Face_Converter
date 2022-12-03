@@ -93,7 +93,7 @@
   
 ## <개발환경>
 - IDE : PyCharm
-- Hardware : AMD Ryzen 7 5700x (3.4GHz, 8 cores), Nvidia GeForce RTX 3060ti, RAM 32GB
+- Etc : Blender(3D)
 
 ## <개발기간>
 - 2022년 학기중 (6개월)
