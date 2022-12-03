@@ -9,11 +9,11 @@
  ## 시스템 흐름
   <img src="./readme_images/flow_diagram.png">
   
-  **1) 이미지를 필터링
-  2) 3D 얼굴 이미지 생성 : create_face
-  3) 헤어 영역 추출 : hair_detect
-  4) 유사한 헤어 매칭 : hair_similarity
-  5) 합치기 및 출력**
+  **1) 이미지를 필터링**
+  **2) 3D 얼굴 이미지 생성 : create_face**
+  **3) 헤어 영역 추출 : hair_detect**
+  **4) 유사한 헤어 매칭 : hair_similarity**
+  **5) 합치기 및 출력**
   
   
  
