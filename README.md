@@ -50,10 +50,12 @@
   ### 4. hair_similarity : 유사한 헤어 매칭
   
   - opencv의 이미지 처리, bitwise 연산, MSE(평균제곱오차) 활용하여 헤어영역의 유사도 측정
+  - 제작된 3D 헤어 모델의 정면 이미지 와 사용자의 헤어 영역을 비교(44개의 헤어모델, 좌우반전포함시 74개)
+  
+  <img src="./readme_images/hair_models.png">
  
  
- 
-   ### 매칭 과정
+  ### 매칭 과정
    base image : 사용자 헤어 영역, compare image : 3D 헤어모델 정면 이미지 모음 중 일부 
    
    1) compare image와 base image를 비율을 유지하면서 너비의 같은 길이로 조정.
