@@ -42,9 +42,9 @@
   - opencv의 이미지 처리, bitwise 연산, MSE(평균제곱오차) 활용하여 헤어영역의 유사도 측정
    #### 매칭 과정
     
-    <img src="./readme_images/ch3-1.">
+   <img src="./readme_images/ch3-1.gif">
     
-    1) 
+   1) 
 
   ### 5. 합치기 및 출력
 
