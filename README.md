@@ -34,12 +34,18 @@
   
   
   - hair_Segmentation : hair tenseorflow, Keras 기반 DeepLabV3+ 활용하여 헤어 영역 검출
+
     - 인공지능 학습 후 사용
+    
   - remove_Back : Pythorch 기반 DeepLabV3 활용하여 배경제거
+  
     - 배경에 대한 노이즈 제거하기 위함
+    
   - post_Processing : opencv의 threshold, Contour 활용하여 노이즈 제거
+  
     - 이미지 이진화 진행 후, 컨투어로 모든 영역을 탐색
     - 가장 큰 영역을 기준으로 면적 이상 영역을 헤어로 간주하고 다른 영역 제거 
+
 
   ### 4. hair_similarity : 유사한 헤어 매칭
   
@@ -53,9 +59,9 @@
    <img src="./readme_images/ch3-1.gif">
    
    3) base image는 정해진 픽셀 수만큼 우측으로 이동하면서 compare image와 base image에 대하여 bitwise_xor 연산을 수행한다.
-   (우측 끝에 도달할 때 까지 반복, 좌표 값에 따른 bitwise_xor을 기록)
+    - 우측 끝에 도달할 때 까지 반복, 좌표 값에 따른 bitwise_xor을 기록
    
-   4) 모든 compare image 이미지에 
+   4) 모든 compare image 이미지에 1) ~ 3) 반복
    
 
   ### 5. 합치기 및 출력
