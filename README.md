@@ -17,7 +17,7 @@
   
   ### 1. 이미지 필터링
   
-  
+  <img src="./readme_images/dlib.png">
   - 얼굴 인식 라이브러리 dlib 활용하여 이미지속 인물이 1명이 아닌경우 필터링
 
   ### 2. create_face : 3D 얼굴 이미지 생성
