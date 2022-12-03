@@ -86,7 +86,7 @@
 
   <img src="./readme_images/ch5.gif">
   
-  #### <result>
+
   
   ## 어려웠던점
    - bpy를 활용한 create_face모듈 Django 내부에서 정상작동X >> 소켓 프로그래밍 활용하여 문제 해결
