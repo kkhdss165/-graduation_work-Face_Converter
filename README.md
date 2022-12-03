@@ -30,7 +30,9 @@
 
   ### 3. hair_detect : 헤어 영역 추출
   
-  <img src="./readme_images/ch1.gif">
+  <img src="./readme_images/ch2.png">
+  
+  
   - hair_Segmentation : hair tenseorflow, Keras 기반 DeepLabV3+ 활용하여 헤어 영역 검출
   - remove_Back : Pythorch 기반 DeepLabV3 활용하여 배경제거 (배경에 대한 노이즈 제거하기 위함)
   - post_Processing : opencv의 threshold, Contour 활용하여 노이즈 제거
