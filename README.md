@@ -84,7 +84,7 @@
   - THREE.js 활용하여 웹 클라이언트에 3D 객체 출력
   
 
-  <img src="./readme_images/ch5.gif">
+  <img src="./readme_images/result.gif">
   
 
   
