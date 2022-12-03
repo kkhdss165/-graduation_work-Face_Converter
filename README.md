@@ -45,8 +45,9 @@
   
   
   ## 어려웠던점
-   - bpy라이브러리를 사용한 create_face 모듈이 Django 내부에서 정상작동X  >> 소켓 프로그래밍 활용하여 문제 해결
- 
+   - bpy라이브러리를 사용한 create_face 모듈이 Django 내부에서 정상작동X
+   ##### 소켓 프로그래밍 활용하여 문제 해결
+  
 ## <개발환경>
 - IDE : PyCharm
 - Hardware : AMD Ryzen 7 5700x (3.4GHz, 8 cores), Nvidia GeForce RTX 3060ti, RAM 32GB
