@@ -83,6 +83,10 @@
   - create_face 통해 생성된 모델에 맞게 헤어 모델 사이즈 및 좌표 조정
   - THREE.js 활용하여 웹 클라이언트에 3D 객체 출력
   
+
+  <img src="./readme_images/ch5.gif">
+  
+  #### <result>
   
   ## 어려웠던점
    - bpy를 활용한 create_face모듈 Django 내부에서 정상작동X >> 소켓 프로그래밍 활용하여 문제 해결
