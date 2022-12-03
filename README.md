@@ -59,7 +59,8 @@
    <img src="./readme_images/ch3-1.gif">
    
    3) base image는 정해진 픽셀 수만큼 우측으로 이동하면서 compare image와 base image에 대하여 bitwise_xor 연산을 수행한다.
-    - 우측 끝에 도달할 때 까지 반복, 좌표 값에 따른 bitwise_xor을 기록
+    
+   - 우측 끝에 도달할 때 까지 반복, 좌표 값에 따른 bitwise_xor을 기록
    
    4) 모든 compare image 이미지에 1) ~ 3) 반복
    
