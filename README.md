@@ -53,6 +53,8 @@
   - 제작된 3D 헤어 모델의 정면 이미지 와 사용자의 헤어 영역을 비교(44개의 헤어모델, 좌우반전포함시 74개)
   
   <img src="./readme_images/hair_models.png">
+  
+  <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/hair_model_list.jpg">헤어모델리스트</a>
  
  
   ### 매칭 과정
@@ -101,3 +103,4 @@
 ## <참조>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/pamphlet.png">팜플릿</a>
 - <a href = "https://github.com/kkhdss165/-study_practice-Graduation_Work">연구, 연습, 메모</a>
+- <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/hair_model_list.jpg">헤어모델리스트</a>
