@@ -101,6 +101,7 @@
 - 2022년 학기중 (6개월)
 
 ## <참조>
+- <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/edit/main/README.md">개발보고서</a>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/pamphlet.png">팜플릿</a>
 - <a href = "https://github.com/kkhdss165/-study_practice-Graduation_Work">연구, 연습, 메모</a>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/hair_model_list.jpg">헤어모델리스트</a>
