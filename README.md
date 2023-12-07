@@ -1,7 +1,7 @@
 # Face_Converter
 졸업작품 - 자유주제
 
-<a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056">논문</a>
+<a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056" target="_blank">논문</a>
 
 # <소개>
   - 2차원 인물 이미지를 3차원 이미지로 변환해주는 프로젝트
@@ -104,9 +104,9 @@
 - 2022년 학기중 (6개월)
 
 ## <참조>
+- <a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056" target="_blank">논문(KCI)</a>
+- <a href = "http://www.ijibc.org/pop/ijibc/sub05.php" target="_blank">IJIBC Vol.15 No.4 : A Study on a Method for Generating a 3D Head Model from a Single 2D Face Image Using Open Source(IJIBC)</a>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/dev_report.pdf">개발보고서</a>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/pamphlet.png">팜플릿</a>
 - <a href = "https://github.com/kkhdss165/-study_practice-Graduation_Work">연구, 연습, 메모</a>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/hair_model_list.jpg">헤어모델리스트</a>
-- <a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056">논문(KCI)</a>
-- <a href = "http://www.ijibc.org/pop/ijibc/sub05.php">A Study on a Method for Generating a 3D Head Model from a Single 2D Face Image Using Open Source(IJIBC)</a>
