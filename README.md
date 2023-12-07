@@ -1,10 +1,12 @@
 # Face_Converter
 졸업작품 - 자유주제
+<a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056">논문</a>
 
 # <소개>
   - 2차원 인물 이미지를 3차원 이미지로 변환해주는 프로젝트
   - Django를 활용한 웹-클라이언트 시스템
   - 얼굴에 대한 3D 모델은 직접생성, 헤어에 대한 3D 모델은 라이브러리 매칭(44개 종류의 헤어모델)
+
 
  ## 시스템 흐름
   <img src="./readme_images/flow_diagram.png">
