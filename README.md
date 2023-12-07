@@ -108,4 +108,5 @@
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/pamphlet.png">팜플릿</a>
 - <a href = "https://github.com/kkhdss165/-study_practice-Graduation_Work">연구, 연습, 메모</a>
 - <a href = "https://github.com/kkhdss165/-graduation_work-Face_Converter/blob/main/report/hair_model_list.jpg">헤어모델리스트</a>
-- <a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056">논문</a>
+- <a href = "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003021056">논문(KCI)</a>
+- <a href = "http://www.ijibc.org/pop/ijibc/sub05.php">A Study on a Method for Generating a 3D Head Model from a Single 2D Face Image Using Open Source(IJIBC)</a>
